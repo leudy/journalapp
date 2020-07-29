@@ -20,7 +20,18 @@ export const NoteScreen = () => {
     //     }
     // }, [ActiveNoteId, reset, note])
 
-    // for update activenote on realtime on redux
+    // for update activenote on realtime on reduxonst [formValues, onInputChange, reset] = useForm(note);
+    // //console.log(formValues)
+    // const ActiveNoteId = useRef(note.id)
+    // useEffect(() => {
+    //     // set new valuesSelectingNote
+    //     if (note.id !== ActiveNoteId) {
+    //         reset(note);
+    //         console.log('nueva data al form')
+    //         ActiveNoteId.current = note.id
+    //     }
+    // }, [ActiveNoteId, reset, note])
+
     // useEffect(() => {
     //     const { id } = formValues;
     //     dispatch(ActiveNote(id, { ...formValues }))
