@@ -59,3 +59,14 @@ export const loadnotes = (notes) => ({
     type: NotesType.noteLoad,
     payload: notes
 })
+
+
+export const SaveNoteOnServer=(note)  =>{
+  return async (dispatch,getState) =>{
+    
+    const { active}   = getState().notes;
+    const { uid } = getState().auth;
+
+    console.log(' este es mi estado activo', active );
+  }
+}
