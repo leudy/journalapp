@@ -38,7 +38,7 @@ export const NoteScreen = () => {
     // }, [formValues])
 
 
-    const { title, body } = formValues;
+    const { title, body, url } = formValues;
     // console.log(body)
     // console.log(formValues)
 
@@ -65,7 +65,7 @@ export const NoteScreen = () => {
                 </textarea>
                 <div className="note__image">
                     <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+                        src={url}
                         alt="imagen"
                     >
                     </img>
