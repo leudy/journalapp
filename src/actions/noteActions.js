@@ -1,6 +1,7 @@
 import { db } from "../firebase/firebase-config";
-import { NotesType } from '../redux/types/authTypes'
+import { NotesType, UiTypes } from '../redux/types/authTypes'
 import { loadnotesaysnc } from "../helpers/NoteRepo";
+import Swal from "sweetalert2";
 // this method gonna handle savegin on firebase for async method
 export const AddNote = () => {
     return async (dispatch, getState) => {
@@ -28,10 +29,8 @@ export const _AddNewNote = (uid, note) =>
                 ...note
             }
         }
-
     )
 export const ActiveNote = (id, note) =>
-
     (
         {
             type: NotesType.noteActive,
@@ -40,7 +39,6 @@ export const ActiveNote = (id, note) =>
                 ...note
             }
         }
-
     )
 
 export const SelectingNote = (note) => ({
@@ -59,14 +57,35 @@ export const loadnotes = (notes) => ({
     type: NotesType.noteLoad,
     payload: notes
 })
-
-
 export const SaveNoteOnServer=(note)  =>{
   return async (dispatch,getState) =>{
     
     const { active}   = getState().notes;
-    const { uid } = getState().auth;
+    const { ui } = getState().auth;
+    
+    //console.log(' este es mi estado activo', active );
+   const NoteFireStore = {...active};
+   // revome id for no save on firestore
+   delete NoteFireStore.id;
+   if(!active.url)
+   {
+       console.log('no tiene valor en la url');
+       
+       delete NoteFireStore.url;
+   }
+   const uriNote = `${ui}/journal/notes/${active.id}`;
+   await db.doc(uriNote).update(NoteFireStore);
+   dispatch(refreshNote(active.id,active))
+   Swal.fire('Nota actualizada',active.title,'success')
 
-    console.log(' este es mi estado activo', active );
+
+
   }
 }
+
+export const refreshNote  = (id, note) => ({
+    type: NotesType.noteUpload,
+    payload:{
+        id,note:{id,...note}
+    }
+})

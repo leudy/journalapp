@@ -29,13 +29,11 @@ export const Sidebar = () => {
                     onClick={handleLogout}>Logout</button>
 
             </div>
-            <div classnName="journal__new-entry" style={{ marginBottom: 20 }} onClick={handleNewEntry} >
+            <div className="journal__new-entry" style={{ marginBottom: 20 }} onClick={handleNewEntry} >
                 <i className="far fa-calendar-plus fa-5x pointer"></i>
                 <p className="mt-5">New Entry</p>
             </div>
             <JournalEntries></JournalEntries>
-
-
         </div>
     )
 }

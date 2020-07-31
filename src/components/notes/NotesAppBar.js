@@ -3,6 +3,7 @@ import { SaveNoteOnServer } from '../../actions/noteActions'
 import { useDispatch } from 'react-redux'
 
 export const NotesAppBar = () => {
+    const date = new Date().toDateString();
    // save note to db
    const dispatch = useDispatch();
    const handleBtnSave = () =>{
@@ -13,7 +14,7 @@ export const NotesAppBar = () => {
         <div className="notes__appbar">
             <input type="file" id='image' style={{ display: 'none' }} />
 
-            <span> 28 de agosto  </span>
+            <span> {date} </span>
             <div>
                 <button className="btn" style={{ borderRadius: 'none' }}>Picture</button>
                 <button className="btn" onClick={handleBtnSave}>Save</button>
