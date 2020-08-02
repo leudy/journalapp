@@ -6,41 +6,22 @@ import { ActiveNote } from '../../actions/noteActions'
 export const NoteScreen = () => {
     const dispatch = useDispatch();
     const { active: note } = useSelector(state => state.notes);
-    console.log('this is my state', note)
+    const [formValues, onInputChange, reset] = useForm(note);
+    const _ActiveNoteId = useRef(note.id)
+    const { title, body } = formValues;
+    useEffect(() => {
+        if (note.id !== _ActiveNoteId.current) {
+            reset(note)
+            _ActiveNoteId.current = note.id;
+        }
+    }, [note, reset])
 
-    // const [formValues, onInputChange, reset] = useForm(note);
-    // //console.log(formValues)
-    // const ActiveNoteId = useRef(note.id)
-    // useEffect(() => {
-    //     // set new valuesSelectingNote
-    //     if (note.id !== ActiveNoteId) {
-    //         reset(note);
-    //         console.log('nueva data al form')
-    //         ActiveNoteId.current = note.id
-    //     }
-    // }, [ActiveNoteId, reset, note])
-
-    // for update activenote on realtime on reduxonst [formValues, onInputChange, reset] = useForm(note);
-    // //console.log(formValues)
-    // const ActiveNoteId = useRef(note.id)
-    // useEffect(() => {
-    //     // set new valuesSelectingNote
-    //     if (note.id !== ActiveNoteId) {
-    //         reset(note);
-    //         console.log('nueva data al form')
-    //         ActiveNoteId.current = note.id
-    //     }
-    // }, [ActiveNoteId, reset, note])
-
-    // useEffect(() => {
-    //     const { id } = formValues;
-    //     dispatch(ActiveNote(id, { ...formValues }))
-    // }, [formValues])
+    useEffect(() => {
+        dispatch(ActiveNote(formValues.id, { ...formValues }))
 
 
-    const { title, body, url } = formValues;
-    // console.log(body)
-    // console.log(formValues)
+    }, [formValues, dispatch])
+
 
     return (
         <div className="notes__main-content">
@@ -63,13 +44,14 @@ export const NoteScreen = () => {
                     onChange={onInputChange}
                 >
                 </textarea>
-                <div className="note__image">
-                    <img
-                        src={url}
-                        alt="imagen"
-                    >
-                    </img>
-                </div>
+                {(note.url) &&
+                    (<div className="note__image">
+                        <img
+                            src={url}
+                            alt="imagen"
+                        >
+                        </img>
+                    </div>)}
 
             </div>
         </div>
