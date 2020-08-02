@@ -1,5 +1,5 @@
 import { db } from "../firebase/firebase-config";
-import { NotesType, UiTypes } from '../redux/types/authTypes'
+import { NotesType } from '../redux/types/authTypes'
 import { loadnotesaysnc } from "../helpers/NoteRepo";
 import Swal from "sweetalert2";
 import { UploadFile } from "../helpers/FileManager";
@@ -17,9 +17,18 @@ export const AddNote = () => {
         const doc = await db.collection(UserPathRoot).add(newnote)
         console.log(doc)
         dispatch(_AddNewNote(doc.id, newnote))
+        dispatch(addNewNoteOnScreen(doc.id, newnote))
         //console.log(state.ui)
     }
 }
+export const addNewNoteOnScreen = (id, note) => ({
+    type: NotesType.addNewNote,
+    payload: {
+        id, ...note
+    }
+})
+
+
 // this method will go to hanlde redux values
 export const _AddNewNote = (uid, note) =>
     (
@@ -31,6 +40,10 @@ export const _AddNewNote = (uid, note) =>
             }
         }
     )
+
+
+
+
 export const ActiveNote = (id, note) =>
     (
         {
@@ -82,11 +95,23 @@ export const SaveNoteOnServer = (note) => {
 
     }
 }
-export const startUploado = (file) => {
+export const startUploadPhoto = (file) => {
     return async (dispatch, getState) => {
         const { active: ActiveNote } = getState().notes;
+        Swal.fire({
+            title: 'Uploading...', text: 'Please wait...',
+            allowOutsideClick: false, beforeOpen: () => {
+                Swal.showLoading();
+            }
+
+        })
+
+
         const fileUrl = await UploadFile(file);
-        console.log(fileUrl)
+        console.log(fileUrl);
+        ActiveNote.url = fileUrl;
+        dispatch(SaveNoteOnServer(ActiveNote));
+        Swal.close();
     }
 }
 export const refreshNote = (id, note) => ({
@@ -94,4 +119,32 @@ export const refreshNote = (id, note) => ({
     payload: {
         id, note: { id, ...note }
     }
+})
+
+
+export const StartDeleting = (id) => {
+    return async (dispatch, getState) => {
+        const { ui } = getState().auth;
+        const uri_for_delete = `/${ui}/journal/notes/${id}`
+        await db.doc(uri_for_delete).delete();
+        dispatch(DeleteOnState(id))
+
+    }
+}
+
+export const DeleteOnState = (id) => ({
+    type: NotesType.noteDelete,
+    payload: id
+})
+
+
+export const ClearStatus = () => {
+    return async (dispatch) => {
+        //await firebase.auth().signOut();
+        dispatch(ClearState())
+
+    }
+}
+export const ClearState = () => ({
+    type: NotesType.noteClear
 })

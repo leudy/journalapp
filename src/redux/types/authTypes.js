@@ -12,13 +12,13 @@ export const UiTypes = {
 
 export const NotesType = {
     noteActive: '[Note] for editing',
-    noteActive: '[Note] for update',
     noteLoad: '[Note] Load data',
     noteAdd: '[Note] new note',
     noteEdit: '[Note] edit a note',
     noteUpload: '[Note] update url image',
     noteUpdateUrl: '[Note] update url note',
     noteDelete: '[Note] delete a note',
-    noteClear: '[Note] clear memory notes'
+    noteClear: '[Note] clear memory notes',
+    addNewNote: '[note] add new note on screen'
 
 }

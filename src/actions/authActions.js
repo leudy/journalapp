@@ -1,6 +1,7 @@
 import { AuthTypes } from "../redux/types/authTypes";
 import { googleAuthProvider, firebase } from '../firebase/firebase-config';
-import { SetError, startLogin, FinishLogin } from "./uiActions";
+import { startLogin, FinishLogin } from "./uiActions";
+import { ClearState } from './noteActions'
 import Swal from 'sweetalert2'
 
 
@@ -62,6 +63,7 @@ export const Startlogout = () => {
     return async (dispatch) => {
         await firebase.auth().signOut();
         dispatch(logout())
+        dispatch(ClearState())
     }
 }
 export const logout = () => ({
@@ -74,4 +76,4 @@ export const login = (uid, displayName) => ({
         uid, displayName
 
     }
-})
+})  

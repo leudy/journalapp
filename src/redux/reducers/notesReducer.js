@@ -9,6 +9,12 @@ const initialState = {
 export const notesReducers = (state = initialState, action) => {
     switch (action.type) {
         // active option
+
+        case NotesType.addNewNote:
+            return {
+                ...state,
+                notes: [action.payload, ...state.notes]
+            }
         case NotesType.noteActive:
             return {
                 ...state,
@@ -25,11 +31,22 @@ export const notesReducers = (state = initialState, action) => {
             return {
                 ...state,
                 notes: state.notes.map(
-                                     note => note.id === action.payload.id ? action.payload.note : note
-                    )
+                    note => note.id === action.payload.id ? action.payload.note : note
+                )
 
             }
-
+        case NotesType.noteDelete:
+            return {
+                ...state
+                , active: null,
+                notes: state.notes.filter(n => n.id !== action.payload)
+            }
+        case NotesType.noteClear:
+            return {
+                ...state,
+                active: null,
+                notes: []
+            }
         default:
             return state;
     }

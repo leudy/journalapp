@@ -13,9 +13,8 @@ export const LoginScreen = () => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.ui)
 
-
-
     const [formvalue, handlechange] = useForm(intialState);
+
     const { email, password } = formvalue;
 
     const HanldeSubmit = (e) => {
@@ -34,10 +33,27 @@ export const LoginScreen = () => {
     return (
         <>
             <h3 className="auth__title">Login</h3>
-            <form onSubmit={HanldeSubmit}>
-                <input type="text" placeholder="email" value={email} onChange={handlechange} name="email" autoComplete="off" className="auth__input" />
-                <input type="password" placeholder="password" value={password} onChange={handlechange} name="password" autoComplete="off" className="auth__input" />
-                <button type="submit" disabled={false}
+            <form onSubmit={HanldeSubmit} className='animate__animated animate__fadeIn animate__faster' >
+
+                <input type="text"
+                    name="email"
+                    value={email}
+                    onChange={handlechange}
+                    placeholder="email"
+                    autoComplete="off"
+                    className="auth__input" />
+
+
+                <input type="password"
+                    name="password"
+                    value={password}
+                    onChange={handlechange}
+                    placeholder="password"
+                    autoComplete="off"
+                    className="auth__input" />
+
+
+                <button type="submit"
                     className="btn btn-primary btn-block" disabled={loading}> {!loading ? 'Entrar' : 'Enviando...'}</button>
                 <hr />
                 <div className="aut__social-network">
@@ -47,7 +63,7 @@ export const LoginScreen = () => {
                     >
                         <div className="google-icon-wrapper">
                             <img className="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="google button" />
-                        </div>21
+                        </div>
                         <p className="btn-text">
                             <b>Sign in with google</b>
                         </p>

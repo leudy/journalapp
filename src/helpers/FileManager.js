@@ -1,4 +1,3 @@
-import thunk from "redux-thunk";
 
 export const UploadFile = async (file) => {
     const ApiCloudId = 'https://api.cloudinary.com/v1_1/leudy/upload'
